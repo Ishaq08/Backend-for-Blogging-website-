@@ -1,18 +1,20 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const blogSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true
+      required: true,
+      trim: true,
     },
     content: {
       type: String,
-      required: true
+      required: true,
     },
-    imageUrl: {
-      type: String
-    }, // store Cloudinary URL
+    image: {
+      type: String, // Cloudinary URL
+      required: false,
+    },
   },
   { timestamps: true }
 );
