@@ -5,21 +5,21 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import fs from 'fs';
 
-// ✅ Create Blog
+//  Create Blog
 export const createBlog = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
 
   console.log('REQ BODY:', req.body);
   console.log('REQ FILE:', req.file);
 
-  // ✅ validate fields
+  //  validate fields
   if (!title || !content) {
     throw new Error('Missing required fields: title or content');
   }
 
   let imageUrl = null;
 
-  // ✅ upload image if present
+  //  upload image if present
   if (req.file) {
     const uploaded = await uploadOnCloudinary(req.file.path);
 
@@ -28,7 +28,7 @@ export const createBlog = asyncHandler(async (req, res) => {
     }
     imageUrl = uploaded.url;
 
-    // ✅ safely delete temp file
+    //  safely delete temp file
     try {
       if (fs.existsSync(req.file.path)) {
         fs.unlinkSync(req.file.path);
@@ -39,7 +39,7 @@ export const createBlog = asyncHandler(async (req, res) => {
     }
   }
 
-  // ✅ create blog in DB
+  //  create blog in DB
   const blog = await Blog.create({
     title,
     content,
@@ -54,7 +54,7 @@ export const createBlog = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Get All Blogs
+//  Get All Blogs
 export const getAllBlogs = asyncHandler(async (req, res) => {
   const blogs = await Blog.find().sort({ createdAt: -1 });
   return res
@@ -62,7 +62,7 @@ export const getAllBlogs = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, blogs, 'Blogs fetched successfully'));
 });
 
-// ✅ Get Blog By ID
+//  Get Blog By ID
 export const getBlogById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const blog = await Blog.findById(id);
@@ -76,7 +76,7 @@ export const getBlogById = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, blog, 'Blog fetched successfully'));
 });
 
-// ✅ Update Blog
+//  Update Blog
 export const updateBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
@@ -117,7 +117,7 @@ export const updateBlog = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, blog, 'Blog updated successfully'));
 });
 
-// ✅ Delete Blog
+//  Delete Blog
 export const deleteBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const blog = await Blog.findById(id);

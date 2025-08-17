@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: "*",
     credentials: true,
   })
 );
@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 app.use(express.static('public'));
 app.use(cookieParser());
 
-// ✅ Blog routes
+// Blog routes
 app.use('/api/blogs', blogRoutes);
 
 export { app };
